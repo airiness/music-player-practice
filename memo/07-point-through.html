@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            #item {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 200px;
+                height: 100px;
+                background-color: pink;
+                overflow: auto;
+                opacity: 0.5;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="item"></div>
+        <a href="http://www.google.com">Hello</a>
+    </body>
+    <script>
+        window.onload = function () {
+            var item = document.querySelector("#item");
+            // mobile will jump to google
+            item.addEventListener("touchstart", function () {
+                this.style.display = "none";
+            });
+
+            // pc has 300ms delay mobile do not have(because of double click event)
+        };
+    </script>
+</html>

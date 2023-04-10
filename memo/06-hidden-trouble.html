@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>custom right click menu</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            #wrap {
+                width: 200px;
+                height: 100px;
+                background-color: royalblue;
+                overflow: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrap">dhhfhdjfhkasjdhfkjahskdjfhkj</div>
+    </body>
+    <script>
+        window.onload = function () {
+            //meta
+            //preventDefault
+            //adaptation
+            document.addEventListener(
+                "touchstart",
+                function (ev) {
+                    ev = ev || event;
+                    ev.preventDefault(); // all default will be invalid, include scroll
+                },
+                { passive: false }
+            );
+
+            (function (flag) {
+                const styleNode = document.createElement("style");
+                const w = document.documentElement.clientWidth / flag;
+                styleNode.innerHTML = `html{font-size:${w}px!important}`;
+                document.head.appendChild(styleNode);
+            })();
+        };
+    </script>
+</html>

@@ -1,0 +1,51 @@
+<style>
+    .wrapper {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ccc;
+    }
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200px;
+        height: 100px;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .button {
+        position: absolute;
+        top: 80px;
+        left: 80px;
+        width: 40px;
+        height: 40px;
+        background-color: red;
+    }
+</style>
+
+<div class="wrapper">
+    <div class="overlay"></div>
+    <button class="button"></button>
+</div>
+
+<script>
+    var overlay = document.querySelector(".overlay");
+    var button = document.querySelector(".button");
+
+    overlay.addEventListener(
+        "click",
+        function (e) {
+            console.log("Overlay Clicked");
+            e.stopPropagation();
+        },
+        false
+    );
+
+    button.addEventListener(
+        "click",
+        function (e) {
+            console.log("Button Clicked");
+        },
+        false
+    );
+</script>

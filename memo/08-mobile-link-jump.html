@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <a href="http://google.com">Google</a>
+        <a href="http://google.com">Google</a>
+        <a href="http://google.com">Google</a>
+        <a href="http://google.com">Google</a>
+        <a href="http://google.com">Google</a>
+        <a href="http://google.com">Google</a>
+    </body>
+    <script>
+        window.onload = function () {
+            document.addEventListener("touchstart", function (ev) {
+                ev = ev || event;
+                ev.preventDefault();
+            });
+
+            var aNodes = document.querySelectorAll("a");
+            aNodes.forEach((node) => {
+                node.addEventListener("touchstart", function () {
+                    this.isMove = false;
+                });
+
+                node.addEventListener("touchmove", function () {
+                    this.isMove = true;
+                });
+
+                node.addEventListener("touchend", function () {
+                    if (!this.isMove) {
+                        location.href = node.href;
+                    }
+                });
+            });
+        };
+    </script>
+</html>
