@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>query selector</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            .item {
+                margin-left: 200px;
+                width: 50px;
+                height: 50px;
+                border: 1px solid;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="item">Helloooo</div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+
+        <script>
+            // query selector:static
+            // queryselector
+            // (function () {
+            //     let itemNodes = document.getElementsByClassName("item");
+            //     // let itemNodes = document.querySelectorAll(".item");
+            //     document.body.innerHTML += "<div class='item'></div>";
+            //     for (let i = 0; i < itemNodes.length; i++) {
+            //         itemNodes[i].style.background = "pink";
+            //     }
+            // })();
+
+            // screen touch and pointer
+            // touchstart, touchmove, touchend
+            // mousedown mousemove mouseup
+
+            (function () {
+                document.addEventListener("touchstart", function (ev) {
+                    ev = ev || event;
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                });
+
+                // let item = document.querySelector(".item");
+                // item.ontouchstart = function (ev) {
+                //     // ev = ev || event;
+                //     ev.preventDefault();
+                //     console.log("ontouchstart");
+                // };
+                // item.ontouchmove = function () {
+                //     console.log("ontouchmove");
+                // };
+                // item.ontouchend = function () {
+                //     console.log("ontouchend");
+                // };
+
+                // item.addEventListener("touchstart", function () {
+                //     console.log("event:touchstart");
+                // });
+                // item.addEventListener("touchmove", function () {
+                //     console.log("event:touchmove");
+                // });
+                // item.addEventListener("touchend", function () {
+                //     console.log("event:touchend");
+                // });
+            })();
+        </script>
+    </body>
+</html>
