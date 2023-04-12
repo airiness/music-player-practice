@@ -18,6 +18,10 @@
         window.onload = function () {
             document.addEventListener("touchstart", function (ev) {
                 ev = ev || event;
+
+                // changedTouches:
+                // targetTouches
+                // touches
                 ev.preventDefault();
             });
 
