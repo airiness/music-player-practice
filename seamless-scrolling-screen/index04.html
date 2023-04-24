@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+        <title>Seamless scrolling</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            html,
+            body {
+                height: 100%;
+                overflow: hidden;
+            }
+
+            #wrap {
+                height: 100%;
+                overflow: hidden;
+            }
+
+            .carousel-wrap {
+                position: relative;
+            }
+
+            .carousel-wrap > .points-wrap {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                text-align: center;
+                z-index: 1;
+            }
+
+            .carousel-wrap > .points-wrap > span {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: green;
+                margin-left: 5px;
+            }
+
+            .carousel-wrap > .points-wrap > span.active {
+                background: deeppink;
+            }
+
+            .carousel-wrap > .list {
+                list-style: none;
+                overflow: hidden;
+                position: absolute;
+            }
+
+            .carousel-wrap > .list > li {
+                float: left;
+            }
+
+            .carousel-wrap > .list > li > a,
+            .carousel-wrap > .list > li > a > img {
+                display: block;
+            }
+
+            .carousel-wrap > .list > li > a > img {
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="wrap">
+            <div class="carousel-wrap" needCarousel needAuto>
+                <div class="points-wrap"></div>
+            </div>
+        </div>
+        <script src="../js/transform.js"></script>
+        <script>
+            window.onload = function () {
+                document.addEventListener("touchstart", function (ev) {
+                    ev = ev || event;
+                    ev.preventDefault();
+                });
+
+                var arr = ["img/img-1.svg", "img/img-2.svg", "img/img-3.svg", "img/img-7.svg", "img/img-5.svg"];
+                carousel(arr);
+                function carousel(arr) {
+                    var carouselWrap = document.querySelector(".carousel-wrap");
+                    if (carouselWrap) {
+                        var pointsLength = arr.length;
+
+                        var needCarousel = carouselWrap.getAttribute("needCarousel");
+                        needCarousel = needCarousel == null ? false : true;
+                        if (needCarousel) {
+                            arr = arr.concat(arr);
+                        }
+
+                        var ulNode = document.createElement("ul");
+                        var styleNode = document.createElement("style");
+                        ulNode.classList.add("list");
+
+                        for (var i = 0; i < arr.length; i++) {
+                            ulNode.innerHTML += `<li><a href="javascript:;"><img src="${arr[i]}" alt=""/></a></li>`;
+                        }
+
+                        styleNode.innerHTML = `.carousel-wrap > .list > li {width: ${
+                            (1 / arr.length) * 100
+                        }%;} .carousel-wrap > .list {width: ${arr.length * 100}%;}`;
+                        carouselWrap.appendChild(ulNode);
+                        document.head.appendChild(styleNode);
+
+                        var imgNodes = document.querySelector(".carousel-wrap > .list > li > a > img");
+                        setTimeout(function () {
+                            carouselWrap.style.height = imgNodes.offsetHeight + "px";
+                        }, 100);
+
+                        var pointsWrap = document.querySelector(".carousel-wrap > .points-wrap");
+                        if (pointsWrap) {
+                            for (var i = 0; i < pointsLength; i++) {
+                                if (i == 0) {
+                                    pointsWrap.innerHTML += '<span class="active"></span>';
+                                } else {
+                                    pointsWrap.innerHTML += "<span></span>";
+                                }
+                            }
+
+                            var pointsSpan = document.querySelectorAll(".carousel-wrap > .points-wrap >span");
+                        }
+
+                        //element position
+                        //finger position
+                        //move distance
+                        //add finger move distance to element
+                        var index = 0;
+                        var startX = 0;
+                        var elementX = 0;
+
+                        carouselWrap.addEventListener("touchstart", function (ev) {
+                            ev = ev || event;
+                            var TouchC = ev.changedTouches[0];
+
+                            ulNode.style.transition = "none";
+                            if (needCarousel) {
+                                var index = damu.css(ulNode, "translateX") / document.documentElement.clientWidth;
+                                if (-index === 0) {
+                                    index = -pointsLength;
+                                } else if (-index === arr.length - 1) {
+                                    index = 1 - pointsLength;
+                                }
+                                damu.css(ulNode, "translateX", index * document.documentElement.clientWidth);
+                            }
+
+                            startX = TouchC.clientX;
+
+                            elementX = damu.css(ulNode, "translateX");
+
+                            clearInterval(timer);
+                        });
+                        carouselWrap.addEventListener("touchmove", function (ev) {
+                            ev = ev || event;
+                            var TouchC = ev.changedTouches[0];
+                            var nowX = TouchC.clientX;
+                            var disX = nowX - startX;
+
+                            damu.css(ulNode, "translateX", elementX + disX);
+                        });
+                        carouselWrap.addEventListener("touchend", function (ev) {
+                            ev = ev || event;
+
+                            index = damu.css(ulNode, "translateX") / document.documentElement.clientWidth;
+                            index = Math.round(index);
+
+                            if (index > 0) {
+                                index = 0;
+                            } else if (index < 1 - arr.length) {
+                                index = 1 - arr.length;
+                            }
+
+                            pointsAsync(index);
+                            ulNode.style.transition = "1s transform";
+                            damu.css(ulNode, "translateX", index * document.documentElement.clientWidth);
+
+                            if (needAuto) {
+                                auto();
+                            }
+                        });
+
+                        var timer = 0;
+                        var needAuto = carouselWrap.getAttribute("needAuto");
+                        needAuto = needAuto == null ? false : true;
+                        if (needAuto) {
+                            auto();
+                        }
+
+                        function auto() {
+                            clearInterval(timer);
+                            timer = setInterval(function () {
+                                if (index == 1 - arr.length) {
+                                    ulNode.style.transition = "none";
+                                    index = -(arr.length / 2 - 1);
+                                    damu.css(ulNode, "translateX", index * document.documentElement.clientWidth);
+                                }
+                                setTimeout(function () {
+                                    index--;
+                                    ulNode.style.transition = "1s transform";
+                                    pointsAsync(index);
+                                    damu.css(ulNode, "translateX", index * document.documentElement.clientWidth);
+                                }, 50);
+                            }, 1200);
+                        }
+
+                        function pointsAsync(index) {
+                            if (!pointsWrap) {
+                                return;
+                            }
+                            for (var i = 0; i < pointsSpan.length; i++) {
+                                pointsSpan[i].classList.remove("active");
+                            }
+                            pointsSpan[-index % pointsLength].classList.add("active");
+                        }
+                    }
+                }
+            };
+        </script>
+    </body>
+</html>
