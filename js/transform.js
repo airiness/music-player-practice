@@ -1,9 +1,10 @@
 (function (w) {
-    w.css = function css(node, type, val) {
+    w.damu = {};
+    w.damu.css = function css(node, type, val) {
         if (typeof node === "object" && typeof node["transform"] === "undefined") {
             node["transform"] = {};
         }
-
+        // debugger;
         if (arguments.length >= 3) {
             var text = "";
             node["transform"][type] = val;
@@ -26,20 +27,20 @@
             }
             node.style.transform = text;
             node.style.webkitTransform = text;
-            console.log(node.style.transform);
-            console.log(node.style.webkitTransform);
-            console.log(text);
+            // console.log(node.style.transform);
+            // console.log(node.style.webkitTransform);
+            // console.log(text);
         } else if (arguments.length == 2) {
             val = node["transform"][type];
             if (typeof val === "undefined") {
                 switch (type) {
                     case "translateX":
-                    case "tanslateY":
+                    case "translateY":
                     case "scale":
-                        val = "0";
+                        val = 0;
                         break;
                     case "rotate":
-                        val = "1";
+                        val = 1;
                         break;
                 }
             }
