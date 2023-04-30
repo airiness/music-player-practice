@@ -88,8 +88,79 @@
                     document.head.appendChild(styleNode);
                 })();
 
-                // drag();
-                // function drag() {}
+                drag();
+                function drag() {
+                    var nav = document.querySelector("#wrap .content .nav ");
+                    var item = document.querySelector("#wrap .content .nav .list");
+
+                    var startX = 0;
+                    var elementX = 0;
+                    var minX = nav.clientWidth - item.offsetWidth;
+
+                    nav.addEventListener("touchstart", function (ev) {
+                        ev = ev || event;
+
+                        var touchC = ev.changedTouches[0];
+                        startX = touchC.clientX;
+
+                        elementX = damu.css(item, "translateX");
+                        item.style.transition = "none";
+                    });
+
+                    nav.addEventListener("touchmove", function (ev) {
+                        ev = ev || event;
+
+                        var touchC = ev.changedTouches[0];
+                        var nowX = touchC.clientX;
+                        var disX = nowX - startX;
+                        var translateX = elementX + disX;
+
+                        if (translateX > 0) {
+                            var scale =
+                                document.documentElement.clientWidth /
+                                ((document.documentElement.clientWidth + translateX) * 1);
+
+                            translateX = elementX + disX * scale;
+                        } else if (translateX < minX) {
+                            var over = minX - translateX;
+                            var scale =
+                                document.documentElement.clientWidth /
+                                ((document.documentElement.clientWidth + over) * 1);
+
+                            translateX = elementX + disX * scale;
+                        }
+
+                        damu.css(item, "translateX", translateX);
+                    });
+
+                    nav.addEventListener("touchend", function () {
+                        var translateX = damu.css(item, "translateX");
+                        item.style.transition = "1s transform";
+                        if (translateX > 0) {
+                            translateX = 0;
+                            damu.css(item, "translateX", translateX);
+                        } else if (translateX < minX) {
+                            translateX = minX;
+                            damu.css(item, "translateX", translateX);
+                        }
+                    });
+                }
+
+                changeFocus();
+                function changeFocus() {
+                    var inputText = document.querySelector("#wrap .head .head-bottom form input[type='text']");
+
+                    inputText.addEventListener("touchstart", function (ev) {
+                        ev = ev || event;
+                        this.focus();
+                        ev.stopPropagation();
+                        ev.preventDefault();
+                    });
+
+                    document.addEventListener("touchstart", function () {
+                        inputText.blur();
+                    });
+                }
 
                 CMCFMenuBtn();
                 function CMCFMenuBtn() {

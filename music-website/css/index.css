@@ -147,6 +147,7 @@ img {
   padding: 0.14814815rem 0;
   background: rgba(0, 0, 0, 0.8);
   display: none;
+  z-index: 2;
 }
 #wrap .head .mask:before {
   position: absolute;
