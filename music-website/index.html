@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+        />
+        <title>Hello</title>
+        <link rel="stylesheet" href="css/index.css" />
+    </head>
+    <body>
+        <div id="wrap">
+            <div class="head">
+                <div class="head-top">
+                    <h1 class="logo">
+                        <a href="#">
+                            <img src="img/img-2.svg" alt="" />
+                        </a>
+                    </h1>
+                    <!-- bread nav -->
+                    <a href="javascript:;" class="menu-btn"></a>
+                    <!-- buttons -->
+                    <div class="btns">
+                        <a href="javascript:;" class="search">Search</a>
+                        <a href="javascript:;">LogIn</a>
+                        <a href="javascript:;">SignIn</a>
+                    </div>
+                </div>
+                <div class="head-bottom">
+                    <form method="post">
+                        <input type="text" placeholder="Click Me" />
+                        <input type="submit" value="search" />
+                    </form>
+                </div>
+                <ul class="mask">
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                    <li><a href="javascript:;">Home</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <div class="nav">
+                    <ul class="list">
+                        <li class="active"><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                        <li><a href="javascript:;">Elysium</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="../js/transform.js"></script>
+        <script src="../js/tools.js"></script>
+        <script>
+            window.onload = function () {
+                document.addEventListener("touchstart", function (ev) {
+                    ev = ev || event;
+                    ev.preventDefault();
+                });
+
+                (function () {
+                    var styleNode = document.createElement("style");
+                    var w = document.documentElement.clientWidth / 16;
+                    styleNode.innerHTML = `html{font-size:${w}px!important}`;
+                    document.head.appendChild(styleNode);
+                })();
+
+                drag();
+                function drag() {
+                    var nav = document.querySelector("#wrap .content .nav ");
+                    var item = document.querySelector("#wrap .content .nav .list");
+
+                    var startX = 0;
+                    var elementX = 0;
+                    var minX = nav.clientWidth - item.offsetWidth;
+
+                    nav.addEventListener("touchstart", function (ev) {
+                        ev = ev || event;
+
+                        var touchC = ev.changedTouches[0];
+                        startX = touchC.clientX;
+
+                        elementX = damu.css(item, "translateX");
+                        item.style.transition = "none";
+                    });
+
+                    nav.addEventListener("touchmove", function (ev) {
+                        ev = ev || event;
+
+                        var touchC = ev.changedTouches[0];
+                        var nowX = touchC.clientX;
+                        var disX = nowX - startX;
+                        var translateX = elementX + disX;
+
+                        if (translateX > 0) {
+                            var scale =
+                                document.documentElement.clientWidth /
+                                ((document.documentElement.clientWidth + translateX) * 1);
+
+                            translateX = elementX + disX * scale;
+                        } else if (translateX < minX) {
+                            var over = minX - translateX;
+                            var scale =
+                                document.documentElement.clientWidth /
+                                ((document.documentElement.clientWidth + over) * 1);
+
+                            translateX = elementX + disX * scale;
+                        }
+
+                        damu.css(item, "translateX", translateX);
+                    });
+
+                    nav.addEventListener("touchend", function () {
+                        var translateX = damu.css(item, "translateX");
+                        item.style.transition = "1s transform";
+                        if (translateX > 0) {
+                            translateX = 0;
+                            damu.css(item, "translateX", translateX);
+                        } else if (translateX < minX) {
+                            translateX = minX;
+                            damu.css(item, "translateX", translateX);
+                        }
+                    });
+                }
+
+                changeFocus();
+                function changeFocus() {
+                    var inputText = document.querySelector("#wrap .head .head-bottom form input[type='text']");
+
+                    inputText.addEventListener("touchstart", function (ev) {
+                        ev = ev || event;
+                        this.focus();
+                        ev.stopPropagation();
+                        ev.preventDefault();
+                    });
+
+                    document.addEventListener("touchstart", function () {
+                        inputText.blur();
+                    });
+                }
+
+                CMCFMenuBtn();
+                function CMCFMenuBtn() {
+                    var menuBtn = document.querySelector("#wrap .head .head-top .menu-btn");
+                    var mask = document.querySelector("#wrap .head .mask");
+
+                    var isCollapsed = false;
+
+                    menuBtn.addEventListener("touchstart", function (ev) {
+                        ev = ev || event;
+                        var touchC = ev.changedTouches[0];
+                        if (!isCollapsed) {
+                            tools.addClass(menuBtn, "active");
+                            mask.style.display = "block";
+                        } else {
+                            tools.removeClass(menuBtn, "active");
+                            mask.style.display = "none";
+                        }
+
+                        isCollapsed = !isCollapsed;
+
+                        ev.stopPropagation();
+                        ev.preventDefault();
+                    });
+
+                    document.addEventListener("touchstart", function () {
+                        if (isCollapsed) {
+                            tools.removeClass(menuBtn, "active");
+                            mask.style.display = "none";
+                            isCollapsed = !isCollapsed;
+                        }
+                    });
+
+                    mask.addEventListener("touchstart", function (ev) {
+                        ev = ev || event;
+                        ev.stopPropagation();
+                        ev.preventDefault();
+                    });
+                }
+            };
+        </script>
+    </body>
+</html>
