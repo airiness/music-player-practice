@@ -1,0 +1,283 @@
+html,
+body,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+span,
+div,
+p,
+a,
+form,
+input {
+    margin: 0;
+    padding: 0;
+    font-family: helvetica;
+}
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+ul {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    display: block;
+}
+a,
+input,
+button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-appearance: none;
+    outline: none;
+    border: none;
+}
+img {
+    display: block;
+}
+
+@rem:1080 /16rem;
+@import "mixin/one-px.less";
+@import "extend/clearfix.less";
+@import "component/carousel.less";
+@import "component/nav.less";
+// wrap
+#wrap {
+    position: relative;
+    font-size: (16 / @rem);
+    height: 100%;
+    overflow: hidden;
+    background: #eeeeee;
+    .head {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        background: #232323;
+        z-index: 8;
+        .head-top {
+            height: (135 / @rem);
+            .logo {
+                float: left;
+                padding: (26 / @rem) (17 / @rem) (21 / @rem) (17 / @rem);
+                img {
+                    width: (240 / @rem);
+                    height: (86 / @rem);
+                }
+            }
+            .menu-btn {
+                float: left;
+                width: (129 / @rem);
+                height: (135 / @rem);
+                background: url(../img/img-5.svg);
+                background-size: (129 / @rem) (135 / @rem);
+                background-position: center 0;
+                &.active {
+                    background: url(../img/img-6.svg);
+                    background-size: (129 / @rem) (135 / @rem);
+                    background-position: center 0;
+                }
+            }
+            .btns {
+                padding-top: (21 / @rem);
+                float: right;
+                a {
+                    float: left;
+                    width: (130 / @rem);
+                    height: (78 / @rem);
+                    line-height: (78 / @rem);
+                    background: #690;
+                    color: #ccc;
+                    margin-right: (15 / @rem);
+                    font-size: (42 / @rem);
+                    text-align: center;
+                    border-radius: (8 / @rem);
+                    &.search {
+                        width: (150 / @rem);
+                        height: (88 / @rem);
+                        line-height: (88 / @rem);
+                        color: #fff;
+                        margin-right: (30 / @rem);
+                        margin-top: (3 / @rem);
+                        font-weight: bold;
+                        border-radius: (10 / @rem);
+                    }
+                }
+            }
+        }
+        .head-bottom {
+            height: (103 / @rem);
+            padding: (16 / @rem);
+            form {
+                height: 100%;
+                display: flex;
+                flex: 1;
+                input[type="text"] {
+                    flex: 0.8;
+                    // float: left;
+                    margin: 0 (15 / @rem) 0 (2 / @rem);
+                    box-sizing: border-box;
+                    height: (103 / @rem);
+                    // width: (997 / @rem);
+                    background: #999999;
+                    padding: (5 / @rem) (10 / @rem);
+                    border: 1px solid #5a5a5a;
+                    font-size: (41 / @rem);
+                    color: #333333;
+                    border-radius: (15 / @rem) 0 0 (15 / @rem);
+                    &::-webkit-input-placeholder {
+                        color: #333333;
+                    }
+                    &:focus {
+                        background: white;
+                    }
+                }
+                input[type="submit"] {
+                    flex: 0.2;
+                    margin: 0 (15 / @rem) 0 (2 / @rem);
+                    // float: right;
+                    // width: (203 / @rem);
+                    height: (103 / @rem);
+                    background: #414040;
+                    color: #fff;
+                    font-size: (41 / @rem);
+                    border-radius: 0 (15 / @rem) (15 / @rem) 0;
+                }
+            }
+        }
+        .mask {
+            .one-px(top, deeppink);
+            position: absolute;
+            left: 0;
+            top: (135 / @rem);
+            width: 100%;
+            padding: (10 / @rem) 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 2;
+            & > li {
+                float: left;
+                width: 22.5%;
+                height: (135 / @rem);
+                font-size: (54 / @rem);
+                line-height: (135 / @rem);
+                text-align: center;
+                a {
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .content {
+        background: #eeeeee;
+        position: absolute;
+        top: (270 / @rem);
+        bottom: 0;
+        left: 0;
+        right: 0;
+        .tap-wrap {
+            overflow: hidden;
+            width: (1046 / @rem);
+            background: #ffffff;
+            margin: 0 auto;
+            .tap-head {
+                height: (135 / @rem);
+                line-height: (135 / @rem);
+                h2 {
+                    float: left;
+                    font-size: 1rem;
+                }
+                span {
+                    float: right;
+                    font-size: 0.8rem;
+                }
+            }
+            .tap-nav {
+                position: relative;
+                height: (105 / @rem);
+                line-height: (105 / @rem);
+                a {
+                    float: left;
+                    height: (105 / @rem);
+                    margin-right: (20 / @rem);
+                    //width: 120/@rem;
+                    font-size: (44 / @rem);
+                    text-align: center;
+                    color: #6b6b6b;
+                }
+                .small-g {
+                    position: absolute;
+                    left: 0;
+                    bottom: (10 / @rem);
+                    height: (9 / @rem);
+                    background: #6f900d;
+                    transition: 1s transform, 1s width;
+                }
+            }
+            .tap-content {
+                &:extend(.clearfix all);
+                width: 300%;
+
+                ul {
+                    float: left;
+                    width: 33.33%;
+                    li {
+                        box-sizing: border-box;
+                        width: (506 / @rem);
+                        margin: (8 / @rem);
+                        padding: (5 / @rem);
+                        font-size: (40 / @rem);
+                        background: #efefef;
+                        color: #000000;
+                        overflow: hidden;
+                        float: left;
+                        a {
+                            img {
+                                width: 100%;
+                            }
+                            span {
+                                display: block;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                color: #605e5e;
+                            }
+                        }
+                        .tap-discuss {
+                            .right {
+                                float: left;
+                                margin-right: (30 / @rem);
+                                vertical-align: middle;
+                            }
+                            .left {
+                                float: left;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+                .tap-loading {
+                    background: url(../img/img-4.png) no-repeat;
+                    background-position: center;
+                    height: 10rem;
+                    opacity: 0;
+                }
+            }
+        }
+    }
+    .scroll-bar {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 4px;
+        height: 100%;
+        background: green;
+        z-index: 9;
+        transition: 1s opacity;
+        opacity: 0;
+    }
+}
